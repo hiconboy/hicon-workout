@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Dumbbell, Play, Pause, RotateCcw, Check, ChevronRight, ChevronDown, TrendingUp, Calendar, Flame, Target, BarChart3, Clock, Zap, Award, Download, Upload, Shield } from 'lucide-react';
+import { Dumbbell, Play, Pause, RotateCcw, Check, ChevronRight, ChevronDown, TrendingUp, Calendar, Flame, Target, BarChart3, Clock, Zap, Award, Download, Upload, Shield, Footprints } from 'lucide-react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const WORKOUT_PLAN = {
@@ -93,7 +93,7 @@ const WORKOUT_PLAN = {
       { id: 'd5-7', name: '덤벨 사이드 벤드', sets: 3, reps: '15/side', muscle: '복사근', tip: '한 손에 덤벨 잡고 옆구리 기울였다 복귀. 복사근, 한쪽씩.' },
     ],
   },
-  sat: { day: 'REST', title: '선택적 LISS', subtitle: 'LIGHT CARDIO OR REST', priority: 0, color: '#64748b', icon: '🏃', cardio: '가벼운 LISS 달리기 30-40분 (선택)', exercises: [], rest: true },
+  sat: { day: 'CARDIO', title: '선택적 LISS', subtitle: 'LIGHT CARDIO OR REST', priority: 0, color: '#84cc16', icon: '🏃', cardio: '가벼운 LISS 달리기 30-40분 (선택)', exercises: [], rest: true, isCardioDay: true },
   sun: { day: 'REST', title: '완전 휴식', subtitle: 'SABBATH', priority: 0, color: '#64748b', icon: '🙏', cardio: null, exercises: [], rest: true },
 };
 
@@ -104,6 +104,7 @@ const STORAGE_KEYS = {
   sessions: 'hicon-all-sessions',
   weights: 'hicon-last-weights',
   session: (d) => `hicon-session-${d}`,
+  cardio: 'hicon-cardio-log',
 };
 
 const getTodayKey = () => {
@@ -119,7 +120,6 @@ const getWeekNumber = (date) => {
 };
 const getDateKey = (date = new Date()) => date.toISOString().split('T')[0];
 
-// Safe localStorage wrapper
 const storage = {
   get: (key) => {
     try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch { return null; }
@@ -135,6 +135,7 @@ export default function App() {
   const [sessionData, setSessionData] = useState({});
   const [allSessions, setAllSessions] = useState({});
   const [lastWeights, setLastWeights] = useState({});
+  const [cardioLog, setCardioLog] = useState({});
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
   const [timerPreset, setTimerPreset] = useState(90);
@@ -152,6 +153,8 @@ export default function App() {
     setLastWeights(weights);
     const today = storage.get(STORAGE_KEYS.session(getDateKey())) || {};
     setSessionData(today);
+    const cardio = storage.get(STORAGE_KEYS.cardio) || {};
+    setCardioLog(cardio);
   }, []);
 
   const calculateStreak = (sessions) => {
@@ -236,6 +239,39 @@ export default function App() {
     }
   };
 
+  // 카디오 로그
+  const toggleCardio = (dateKey, durationMin = 30) => {
+    const current = cardioLog[dateKey];
+    let newLog;
+    if (current) {
+      newLog = { ...cardioLog };
+      delete newLog[dateKey];
+    } else {
+      const d = new Date(dateKey);
+      newLog = {
+        ...cardioLog,
+        [dateKey]: {
+          date: dateKey,
+          duration: durationMin,
+          dayKey: ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'][d.getDay()],
+          week: getWeekNumber(d),
+        },
+      };
+    }
+    setCardioLog(newLog);
+    storage.set(STORAGE_KEYS.cardio, newLog);
+  };
+
+  const updateCardioDuration = (dateKey, duration) => {
+    if (!cardioLog[dateKey]) return;
+    const newLog = {
+      ...cardioLog,
+      [dateKey]: { ...cardioLog[dateKey], duration: parseInt(duration) || 0 },
+    };
+    setCardioLog(newLog);
+    storage.set(STORAGE_KEYS.cardio, newLog);
+  };
+
   const completeWorkout = () => {
     const todayKey = getDateKey();
     const today = new Date();
@@ -305,12 +341,36 @@ export default function App() {
       .map(s => ({ date: s.date.slice(5), volume: Math.round(s.volume), day: s.dayKey === 'mon' ? 'A' : 'B' }));
   };
 
+  const getCardioStats = () => {
+    const logs = Object.values(cardioLog);
+    const total = logs.length;
+    const totalMin = logs.reduce((sum, l) => sum + (l.duration || 0), 0);
+    // 최근 4주
+    const now = new Date();
+    const fourWeeksAgo = new Date(now);
+    fourWeeksAgo.setDate(fourWeeksAgo.getDate() - 28);
+    const recent = logs.filter(l => new Date(l.date) >= fourWeeksAgo);
+    return { total, totalMin, recent4w: recent.length, recentMin: recent.reduce((s, l) => s + (l.duration || 0), 0) };
+  };
+
+  const getCardioByWeek = () => {
+    const weeks = {};
+    Object.values(cardioLog).forEach((l) => {
+      const k = `W${l.week}`;
+      if (!weeks[k]) weeks[k] = { week: k, count: 0, minutes: 0 };
+      weeks[k].count += 1;
+      weeks[k].minutes += (l.duration || 0);
+    });
+    return Object.values(weeks).slice(-8);
+  };
+
   const exportData = () => {
     const data = {
       exportedAt: new Date().toISOString(),
-      version: 1,
+      version: 2,
       sessions: allSessions,
       lastWeights: lastWeights,
+      cardioLog: cardioLog,
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -330,6 +390,7 @@ export default function App() {
         const data = JSON.parse(ev.target.result);
         if (data.sessions) { setAllSessions(data.sessions); storage.set(STORAGE_KEYS.sessions, data.sessions); calculateStreak(data.sessions); }
         if (data.lastWeights) { setLastWeights(data.lastWeights); storage.set(STORAGE_KEYS.weights, data.lastWeights); }
+        if (data.cardioLog) { setCardioLog(data.cardioLog); storage.set(STORAGE_KEYS.cardio, data.cardioLog); }
         alert('백업 복원 완료');
       } catch { alert('파일을 읽을 수 없습니다'); }
     };
@@ -339,7 +400,7 @@ export default function App() {
   const clearAllData = () => {
     if (!confirm('모든 운동 기록을 삭제하시겠습니까? 되돌릴 수 없습니다.')) return;
     Object.keys(localStorage).filter(k => k.startsWith('hicon-')).forEach(k => localStorage.removeItem(k));
-    setAllSessions({}); setLastWeights({}); setSessionData({}); setStreak(0);
+    setAllSessions({}); setLastWeights({}); setSessionData({}); setCardioLog({}); setStreak(0);
   };
 
   const formatTime = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
@@ -353,6 +414,10 @@ export default function App() {
     return sum + Object.values(sets).filter(s => s.done).length;
   }, 0);
   const progressPct = totalSets > 0 ? (completedSetsCount / totalSets) * 100 : 0;
+
+  const todayDateKey = getDateKey();
+  const todayCardio = cardioLog[todayDateKey];
+  const cardioStats = getCardioStats();
 
   return (
     <div className="min-h-screen bg-stone-950 text-stone-100" style={{ fontFamily: "'JetBrains Mono', 'Courier New', monospace" }}>
@@ -408,7 +473,7 @@ export default function App() {
                   </div>
                   <h1 className="text-3xl font-black tracking-tight mb-1">{plan.title}</h1>
                   <div className="text-xs text-stone-500 tracking-widest">{plan.subtitle}</div>
-                  {plan.cardio && (
+                  {plan.cardio && !plan.isCardioDay && (
                     <div className="mt-3 inline-flex items-center gap-2 text-xs text-stone-400 border border-stone-800 px-2 py-1">
                       <Zap className="w-3 h-3 text-lime-500" />{plan.cardio}
                     </div>
@@ -424,27 +489,100 @@ export default function App() {
                     </div>
                     <div className="font-bold tabular-nums">{completedSetsCount}<span className="text-stone-500">/{totalSets}</span></div>
                   </div>
-                  {progressPct === 100 && !allSessions[getDateKey()]?.completed && isToday && (
+                  {progressPct === 100 && !allSessions[todayDateKey]?.completed && isToday && (
                     <button onClick={completeWorkout} className="mt-4 w-full bg-orange-500 text-stone-950 py-3 font-bold tracking-widest text-sm hover:bg-orange-400 flex items-center justify-center gap-2">
                       <Check className="w-4 h-4" strokeWidth={3} />FINISH WORKOUT
                     </button>
                   )}
-                  {allSessions[getDateKey()]?.completed && isToday && (
+                  {allSessions[todayDateKey]?.completed && isToday && (
                     <div className="mt-4 border border-lime-500/30 bg-lime-500/5 py-3 text-center text-lime-500 text-xs tracking-widest font-bold flex items-center justify-center gap-2">
-                      <Award className="w-4 h-4" />COMPLETED · VOL {Math.round(allSessions[getDateKey()].volume)}kg
+                      <Award className="w-4 h-4" />COMPLETED · VOL {Math.round(allSessions[todayDateKey].volume)}kg
                     </div>
                   )}
                 </>
               )}
             </div>
 
-            {plan.rest && (
+            {/* 평일 운동날의 카디오 체크 (월/목) */}
+            {!plan.rest && plan.cardio && isToday && (
+              <div className={`border-2 p-4 transition-all ${todayCardio ? 'border-lime-500/30 bg-lime-500/5' : 'border-stone-800 bg-stone-900/30'}`}>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => toggleCardio(todayDateKey, 25)}
+                    className={`w-10 h-10 flex items-center justify-center flex-shrink-0 transition-all ${todayCardio ? 'bg-lime-500 text-stone-950' : 'bg-stone-800 text-stone-500 hover:bg-stone-700'}`}
+                  >
+                    {todayCardio ? <Check className="w-5 h-5" strokeWidth={3} /> : <Footprints className="w-5 h-5" />}
+                  </button>
+                  <div className="flex-1">
+                    <div className="text-sm font-bold flex items-center gap-2">
+                      달리기 <span className="text-xs text-stone-500">CARDIO</span>
+                    </div>
+                    <div className="text-xs text-stone-500">{plan.cardio}</div>
+                  </div>
+                  {todayCardio && (
+                    <div className="flex items-center gap-1">
+                      <input
+                        type="number"
+                        inputMode="numeric"
+                        value={todayCardio.duration}
+                        onChange={(e) => updateCardioDuration(todayDateKey, e.target.value)}
+                        className="w-14 bg-stone-900 border border-stone-800 px-2 py-1 text-sm font-bold tabular-nums text-center focus:border-lime-500 focus:outline-none"
+                      />
+                      <div className="text-xs text-stone-500">min</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* 토요일 카디오 데이 */}
+            {plan.isCardioDay && isToday && (
+              <div className={`border-2 p-5 transition-all ${todayCardio ? 'border-lime-500 bg-lime-500/5' : 'border-stone-800'}`}>
+                <div className="flex items-center gap-2 mb-4">
+                  <Footprints className="w-4 h-4 text-lime-500" />
+                  <div className="text-xs tracking-widest text-stone-400">SATURDAY CARDIO</div>
+                </div>
+                <button
+                  onClick={() => toggleCardio(todayDateKey, 35)}
+                  className={`w-full py-4 flex items-center justify-center gap-3 transition-all ${todayCardio ? 'bg-lime-500 text-stone-950' : 'bg-stone-800 hover:bg-stone-700 text-stone-300'}`}
+                >
+                  {todayCardio ? (
+                    <>
+                      <Check className="w-5 h-5" strokeWidth={3} />
+                      <span className="font-bold tracking-widest">달리기 완료</span>
+                    </>
+                  ) : (
+                    <>
+                      <Footprints className="w-5 h-5" />
+                      <span className="font-bold tracking-widest">달리기 했어요</span>
+                    </>
+                  )}
+                </button>
+                {todayCardio && (
+                  <div className="mt-4 flex items-center gap-3">
+                    <div className="text-xs text-stone-500 tracking-widest flex-shrink-0">DURATION</div>
+                    <input
+                      type="number"
+                      inputMode="numeric"
+                      value={todayCardio.duration}
+                      onChange={(e) => updateCardioDuration(todayDateKey, e.target.value)}
+                      className="flex-1 bg-stone-900 border border-stone-800 px-3 py-2 text-lg font-bold tabular-nums text-center focus:border-lime-500 focus:outline-none"
+                    />
+                    <div className="text-xs text-stone-500 tracking-widest flex-shrink-0">분</div>
+                  </div>
+                )}
+                <div className="mt-4 text-xs text-stone-600 text-center italic">
+                  토요일은 강제 아님. 컨디션 보고 결정.
+                </div>
+              </div>
+            )}
+
+            {plan.rest && !plan.isCardioDay && (
               <div className="border-2 border-stone-800 p-8 text-center">
                 <div className="text-6xl mb-3">{plan.icon}</div>
                 <div className="text-stone-400 text-sm tracking-wider mb-1">{plan.title}</div>
-                {plan.cardio && <div className="text-xs text-stone-500 mt-2">{plan.cardio}</div>}
                 <div className="text-xs text-stone-600 mt-4 italic">
-                  {selectedDay === 'sun' ? '"수고했으니 안식하리라" — 주일은 완전한 회복' : '회복도 훈련의 일부'}
+                  "수고했으니 안식하리라" — 주일은 완전한 회복
                 </div>
               </div>
             )}
@@ -572,6 +710,50 @@ export default function App() {
                 <div className="text-[10px] text-stone-600">ton · kg×reps</div>
               </div>
             </div>
+
+            {/* 카디오 통계 */}
+            <div className="border-2 border-stone-800 p-4">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <Footprints className="w-4 h-4 text-lime-500" />
+                  <div className="text-xs tracking-widest text-stone-400">CARDIO LOG</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-4 gap-2 mb-4">
+                <div className="border border-stone-800 p-2 text-center">
+                  <div className="text-[9px] text-stone-500 tracking-widest">TOTAL</div>
+                  <div className="text-lg font-black tabular-nums">{cardioStats.total}</div>
+                  <div className="text-[9px] text-stone-600">runs</div>
+                </div>
+                <div className="border border-stone-800 p-2 text-center">
+                  <div className="text-[9px] text-stone-500 tracking-widest">TOTAL</div>
+                  <div className="text-lg font-black tabular-nums text-lime-500">{cardioStats.totalMin}</div>
+                  <div className="text-[9px] text-stone-600">min</div>
+                </div>
+                <div className="border border-stone-800 p-2 text-center">
+                  <div className="text-[9px] text-stone-500 tracking-widest">4W</div>
+                  <div className="text-lg font-black tabular-nums">{cardioStats.recent4w}</div>
+                  <div className="text-[9px] text-stone-600">runs</div>
+                </div>
+                <div className="border border-stone-800 p-2 text-center">
+                  <div className="text-[9px] text-stone-500 tracking-widest">AVG/W</div>
+                  <div className="text-lg font-black tabular-nums text-lime-500">{(cardioStats.recent4w / 4).toFixed(1)}</div>
+                  <div className="text-[9px] text-stone-600">target 2-3</div>
+                </div>
+              </div>
+              {getCardioByWeek().length > 0 ? (
+                <ResponsiveContainer width="100%" height={140}>
+                  <BarChart data={getCardioByWeek()}>
+                    <CartesianGrid strokeDasharray="2 2" stroke="#292524" vertical={false} />
+                    <XAxis dataKey="week" stroke="#78716c" style={{ fontSize: '10px' }} />
+                    <YAxis stroke="#78716c" style={{ fontSize: '10px' }} />
+                    <Tooltip contentStyle={{ background: '#0c0a09', border: '2px solid #292524', fontSize: '11px' }} />
+                    <Bar dataKey="count" fill="#84cc16" />
+                  </BarChart>
+                </ResponsiveContainer>
+              ) : <div className="py-8 text-center text-xs text-stone-600 tracking-wider">달리기 기록 없음</div>}
+            </div>
+
             <div className="border-2 border-stone-800 p-4">
               <div className="flex items-center justify-between mb-3">
                 <div className="text-xs tracking-widest text-stone-400">WEEKLY VOLUME</div>
@@ -647,7 +829,6 @@ export default function App() {
         )}
       </main>
 
-      {/* Floating timer */}
       <div className="fixed bottom-0 left-0 right-0 border-t-2 border-stone-800 bg-stone-950/95 backdrop-blur z-50" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
         <div className="max-w-6xl mx-auto px-4 py-3">
           <div className="flex items-center gap-3">
@@ -676,7 +857,6 @@ export default function App() {
         </div>
       </div>
 
-      {/* Settings / Privacy modal */}
       {showSettings && (
         <div className="fixed inset-0 bg-stone-950/90 backdrop-blur flex items-center justify-center z-[60] p-4" onClick={() => setShowSettings(false)}>
           <div className="border-2 border-stone-700 bg-stone-950 p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
