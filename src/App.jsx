@@ -422,23 +422,22 @@ export default function App() {
   return (
     <div className="min-h-screen bg-stone-950 text-stone-100" style={{ fontFamily: "'JetBrains Mono', 'Courier New', monospace" }}>
       <header className="border-b-2 border-stone-800 bg-stone-950 sticky top-0 z-40 backdrop-blur">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-orange-500 flex items-center justify-center">
-              <Dumbbell className="w-5 h-5 text-stone-950" strokeWidth={3} />
+        <div className="max-w-6xl mx-auto px-3 py-2.5 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-8 h-8 bg-orange-500 flex items-center justify-center flex-shrink-0">
+              <Dumbbell className="w-4 h-4 text-stone-950" strokeWidth={3} />
             </div>
-            <div>
-              <div className="text-xs text-stone-500 tracking-widest">HICON BOY</div>
-              <div className="text-sm font-bold tracking-wider">WORKOUT.OS</div>
+            <div className="min-w-0">
+              <div className="text-[9px] text-stone-500 tracking-widest leading-tight">HICON BOY</div>
+              <div className="text-xs font-bold tracking-wider leading-tight">WORKOUT.OS</div>
             </div>
           </div>
-          <div className="flex items-center gap-3 text-xs">
-            <div className="hidden sm:flex items-center gap-2 text-stone-400">
-              <Flame className="w-4 h-4 text-orange-500" />
-              <span className="font-bold text-orange-500">{streak}</span>
-              <span className="text-stone-500">STREAK</span>
+          <div className="flex items-center gap-2 text-xs flex-shrink-0">
+            <div className="flex items-center gap-1 text-stone-400">
+              <Flame className="w-3.5 h-3.5 text-orange-500" />
+              <span className="font-bold text-orange-500 tabular-nums">{streak}</span>
             </div>
-            <div className="text-stone-500 tracking-wider">
+            <div className="text-stone-500 tracking-wider text-[10px]">
               {new Date().toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit', weekday: 'short' })}
             </div>
             <button onClick={() => setShowSettings(true)} className="w-7 h-7 flex items-center justify-center text-stone-500 hover:text-orange-500">
@@ -446,40 +445,40 @@ export default function App() {
             </button>
           </div>
         </div>
-        <nav className="max-w-6xl mx-auto px-4 flex">
+        <nav className="max-w-6xl mx-auto px-3 flex">
           {[
             { id: 'today', label: 'TODAY', icon: Target },
             { id: 'week', label: 'WEEK', icon: Calendar },
             { id: 'stats', label: 'STATS', icon: BarChart3 },
           ].map(({ id, label, icon: Icon }) => (
             <button key={id} onClick={() => { setView(id); if (id === 'today') setSelectedDay(getTodayKey()); }}
-              className={`flex items-center gap-2 px-4 py-2 text-xs tracking-widest transition-all border-b-2 ${view === id ? 'text-orange-500 border-orange-500' : 'text-stone-500 border-transparent hover:text-stone-300'}`}>
-              <Icon className="w-3.5 h-3.5" />{label}
+              className={`flex items-center gap-1.5 px-3 py-2 text-[11px] tracking-widest transition-all border-b-2 ${view === id ? 'text-orange-500 border-orange-500' : 'text-stone-500 border-transparent hover:text-stone-300'}`}>
+              <Icon className="w-3 h-3" />{label}
             </button>
           ))}
         </nav>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-6 pb-40">
+      <main className="max-w-6xl mx-auto px-3 py-4 pb-32">
         {view === 'today' && (
           <div className="space-y-4">
-            <div className="border-2 border-stone-800 bg-gradient-to-br from-stone-900 to-stone-950 p-5 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 opacity-10" style={{ background: `radial-gradient(circle, ${plan.color}, transparent)` }} />
-              <div className="flex items-start justify-between relative">
-                <div>
-                  <div className="flex items-center gap-2 text-xs tracking-widest text-stone-500 mb-2">
+            <div className="border-2 border-stone-800 bg-gradient-to-br from-stone-900 to-stone-950 p-4 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-28 h-28 opacity-10" style={{ background: `radial-gradient(circle, ${plan.color}, transparent)` }} />
+              <div className="flex items-start justify-between gap-3 relative">
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2 text-[10px] tracking-widest text-stone-500 mb-1.5">
                     <span style={{ color: plan.color }}>● {plan.day}</span>
-                    {plan.priority > 0 && <span>· PRIORITY {plan.priority}</span>}
+                    {plan.priority > 0 && <span>· P{plan.priority}</span>}
                   </div>
-                  <h1 className="text-3xl font-black tracking-tight mb-1">{plan.title}</h1>
-                  <div className="text-xs text-stone-500 tracking-widest">{plan.subtitle}</div>
+                  <h1 className="text-2xl font-black tracking-tight mb-1 break-keep">{plan.title}</h1>
+                  <div className="text-[10px] text-stone-500 tracking-widest">{plan.subtitle}</div>
                   {plan.cardio && !plan.isCardioDay && (
-                    <div className="mt-3 inline-flex items-center gap-2 text-xs text-stone-400 border border-stone-800 px-2 py-1">
+                    <div className="mt-2.5 inline-flex items-center gap-1.5 text-[10px] text-stone-400 border border-stone-800 px-2 py-1">
                       <Zap className="w-3 h-3 text-lime-500" />{plan.cardio}
                     </div>
                   )}
                 </div>
-                <div className="text-5xl opacity-50">{plan.icon}</div>
+                <div className="text-4xl opacity-50 flex-shrink-0">{plan.icon}</div>
               </div>
               {!plan.rest && (
                 <>
@@ -594,22 +593,22 @@ export default function App() {
               const lastWeight = lastWeights[ex.id];
               return (
                 <div key={ex.id} className={`border-2 transition-all ${doneCount === ex.sets ? 'border-lime-500/30 bg-lime-500/5' : 'border-stone-800 bg-stone-900/50'}`}>
-                  <button onClick={() => setExpandedExercise(isExpanded ? null : ex.id)} className="w-full p-4 flex items-center gap-3 text-left">
-                    <div className={`w-8 h-8 flex items-center justify-center text-xs font-bold tabular-nums flex-shrink-0 ${doneCount === ex.sets ? 'bg-lime-500 text-stone-950' : 'bg-stone-800 text-stone-400'}`}>
+                  <button onClick={() => setExpandedExercise(isExpanded ? null : ex.id)} className="w-full p-3 flex items-center gap-2.5 text-left">
+                    <div className={`w-7 h-7 flex items-center justify-center text-[10px] font-bold tabular-nums flex-shrink-0 ${doneCount === ex.sets ? 'bg-lime-500 text-stone-950' : 'bg-stone-800 text-stone-400'}`}>
                       {String(idx + 1).padStart(2, '0')}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-baseline gap-2 flex-wrap">
-                        <div className="font-bold text-sm">{ex.name}</div>
-                        <div className="text-xs text-stone-500">[{ex.muscle}]</div>
+                      <div className="flex items-baseline gap-1.5 flex-wrap">
+                        <div className="font-bold text-sm leading-tight break-keep">{ex.name}</div>
+                        <div className="text-[10px] text-stone-500">[{ex.muscle}]</div>
                       </div>
-                      <div className="text-xs text-stone-500 mt-0.5 tabular-nums">
+                      <div className="text-[10px] text-stone-500 mt-0.5 tabular-nums">
                         {ex.sets} × {ex.reps}
-                        {lastWeight && <span className="ml-2 text-orange-500/70">· last {lastWeight}kg</span>}
+                        {lastWeight && <span className="ml-2 text-orange-500/70">· {lastWeight}kg</span>}
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 flex-shrink-0">
-                      <div className="text-xs tabular-nums text-stone-400">{doneCount}/{ex.sets}</div>
+                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                      <div className="text-[10px] tabular-nums text-stone-400">{doneCount}/{ex.sets}</div>
                       {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
                     </div>
                   </button>
@@ -619,17 +618,17 @@ export default function App() {
                         <span className="text-orange-500 font-bold mr-1">TIP</span>{ex.tip}
                       </div>
                       <div className="space-y-2">
-                        <div className="grid grid-cols-[auto_1fr_1fr_auto] gap-2 text-[10px] text-stone-500 tracking-widest px-1">
-                          <div className="w-8">SET</div><div>WEIGHT (kg)</div><div>REPS</div><div className="w-10 text-center">DONE</div>
+                        <div className="grid grid-cols-[20px_1fr_1fr_36px] gap-2 text-[9px] text-stone-500 tracking-widest px-1">
+                          <div>#</div><div>WEIGHT</div><div>REPS</div><div className="text-center">✓</div>
                         </div>
                         {Array.from({ length: ex.sets }).map((_, setIdx) => {
                           const set = setData[setIdx] || {};
                           return (
-                            <div key={setIdx} className={`grid grid-cols-[auto_1fr_1fr_auto] gap-2 items-center ${set.done ? 'opacity-60' : ''}`}>
-                              <div className="w-8 text-xs font-bold text-stone-400 tabular-nums">{setIdx + 1}</div>
-                              <input type="number" inputMode="decimal" step="0.5" value={set.weight || ''} onChange={(e) => updateSet(ex.id, setIdx, 'weight', e.target.value)} placeholder={lastWeight ? String(lastWeight) : '0'} className="bg-stone-900 border border-stone-800 px-2 py-1.5 text-sm font-bold tabular-nums focus:border-orange-500 focus:outline-none" />
-                              <input type="number" inputMode="numeric" value={set.reps || ''} onChange={(e) => updateSet(ex.id, setIdx, 'reps', e.target.value)} placeholder="0" className="bg-stone-900 border border-stone-800 px-2 py-1.5 text-sm font-bold tabular-nums focus:border-orange-500 focus:outline-none" />
-                              <button onClick={() => toggleSetComplete(ex.id, setIdx)} className={`w-10 h-9 flex items-center justify-center transition-all ${set.done ? 'bg-lime-500 text-stone-950' : 'bg-stone-800 text-stone-600 hover:bg-stone-700'}`}>
+                            <div key={setIdx} className={`grid grid-cols-[20px_1fr_1fr_36px] gap-2 items-center ${set.done ? 'opacity-60' : ''}`}>
+                              <div className="text-xs font-bold text-stone-400 tabular-nums">{setIdx + 1}</div>
+                              <input type="number" inputMode="decimal" step="0.5" value={set.weight || ''} onChange={(e) => updateSet(ex.id, setIdx, 'weight', e.target.value)} placeholder={lastWeight ? String(lastWeight) : 'kg'} className="bg-stone-900 border border-stone-800 px-2 py-2 text-base font-bold tabular-nums focus:border-orange-500 focus:outline-none w-full min-w-0" />
+                              <input type="number" inputMode="numeric" value={set.reps || ''} onChange={(e) => updateSet(ex.id, setIdx, 'reps', e.target.value)} placeholder="reps" className="bg-stone-900 border border-stone-800 px-2 py-2 text-base font-bold tabular-nums focus:border-orange-500 focus:outline-none w-full min-w-0" />
+                              <button onClick={() => toggleSetComplete(ex.id, setIdx)} className={`h-10 flex items-center justify-center transition-all ${set.done ? 'bg-lime-500 text-stone-950' : 'bg-stone-800 text-stone-600 hover:bg-stone-700'}`}>
                                 {set.done ? <Check className="w-4 h-4" strokeWidth={3} /> : <div className="w-3 h-3 border-2 border-current rounded-full" />}
                               </button>
                             </div>
@@ -830,27 +829,27 @@ export default function App() {
       </main>
 
       <div className="fixed bottom-0 left-0 right-0 border-t-2 border-stone-800 bg-stone-950/95 backdrop-blur z-50" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
-        <div className="max-w-6xl mx-auto px-4 py-3">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <Clock className={`w-4 h-4 ${timerRunning ? 'text-orange-500 animate-pulse' : 'text-stone-500'}`} />
-              <div className={`text-2xl font-black tabular-nums ${timerSeconds > 0 && timerSeconds <= 10 ? 'text-red-500' : timerRunning ? 'text-orange-500' : 'text-stone-400'}`}>
+        <div className="max-w-6xl mx-auto px-3 py-2.5">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              <Clock className={`w-3.5 h-3.5 ${timerRunning ? 'text-orange-500 animate-pulse' : 'text-stone-500'}`} />
+              <div className={`text-xl font-black tabular-nums ${timerSeconds > 0 && timerSeconds <= 10 ? 'text-red-500' : timerRunning ? 'text-orange-500' : 'text-stone-400'}`}>
                 {formatTime(timerSeconds)}
               </div>
             </div>
             <div className="flex gap-1 flex-1 justify-center">
               {[60, 90, 120, 180].map(s => (
-                <button key={s} onClick={() => startTimer(s)} className={`px-2 py-1 text-[10px] tracking-widest transition-all ${timerPreset === s ? 'bg-orange-500 text-stone-950' : 'bg-stone-800 text-stone-400 hover:bg-stone-700'}`}>
+                <button key={s} onClick={() => startTimer(s)} className={`px-1.5 py-1 text-[10px] tracking-wider transition-all ${timerPreset === s ? 'bg-orange-500 text-stone-950' : 'bg-stone-800 text-stone-400 hover:bg-stone-700'}`}>
                   {s < 60 ? `${s}s` : `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`}
                 </button>
               ))}
             </div>
-            <div className="flex gap-1">
-              <button onClick={toggleTimer} disabled={timerSeconds === 0} className="w-9 h-9 bg-orange-500 text-stone-950 flex items-center justify-center disabled:opacity-30 disabled:bg-stone-800 disabled:text-stone-600">
-                {timerRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+            <div className="flex gap-1 flex-shrink-0">
+              <button onClick={toggleTimer} disabled={timerSeconds === 0} className="w-8 h-8 bg-orange-500 text-stone-950 flex items-center justify-center disabled:opacity-30 disabled:bg-stone-800 disabled:text-stone-600">
+                {timerRunning ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
               </button>
-              <button onClick={resetTimer} className="w-9 h-9 bg-stone-800 text-stone-400 flex items-center justify-center hover:bg-stone-700">
-                <RotateCcw className="w-4 h-4" />
+              <button onClick={resetTimer} className="w-8 h-8 bg-stone-800 text-stone-400 flex items-center justify-center hover:bg-stone-700">
+                <RotateCcw className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
