@@ -12,13 +12,11 @@ const WORKOUT_PLAN = {
     icon: '💪',
     cardio: '저녁 달리기 20-30분',
     exercises: [
-      { id: 'd1-1', name: '클로즈그립 덤벨 프레스', sets: 4, reps: '8-10', muscle: '삼두', tip: '덤벨 두 개를 가슴 위에서 나란히 붙이고 팔꿈치 몸통에 붙인 채 수직으로 밀어올립니다. 삼두 장두 자극 + 웜업 겸용.' },
-      { id: 'd1-2', name: '인클라인 덤벨 컬', sets: 4, reps: '10-12', muscle: '이두 장두', tip: '벤치 45-60도, 팔을 완전히 늘어뜨린 상태에서 컬. 이두 장두가 최대 신장되는 황금 자세, 반동 절대 금지.' },
-      { id: 'd1-3', name: '라잉 트라이셉스 익스텐션', sets: 4, reps: '10-12', muscle: '삼두', tip: '플랫벤치 누워서 덤벨을 이마 뒤쪽으로 내림, 팔꿈치 위치 고정. 내릴 때 3초, 올릴 때 1초.' },
-      { id: 'd1-4', name: '해머 컬', sets: 3, reps: '10-12', muscle: '상완근', tip: '손바닥이 서로 마주보게 잡고 컬. 상완근과 전완근 개입, 팔뚝 두께 키우는 핵심.' },
-      { id: 'd1-5', name: '시티드 오버헤드 삼두 익스텐션', sets: 3, reps: '12-15', muscle: '삼두 장두', tip: '인클라인 벤치에 앉아 양손으로 덤벨 하나 잡고 머리 뒤로 내림. 삼두 장두 최대 신장, 팔꿈치 벌어지지 않게 귀 옆 고정.' },
-      { id: 'd1-6', name: '컨센트레이션 컬', sets: 3, reps: '12-15', muscle: '이두 피크', tip: '벤치 끝에 앉아 팔꿈치를 허벅지 안쪽에 고정하고 컬. 이두 피크 집중 자극, 천천히.' },
-      { id: 'd1-7', name: '덤벨 킥백', sets: 3, reps: '15', muscle: '삼두 외측', tip: '한 손으로 벤치 짚고 상체 수평, 팔꿈치를 몸통 높이로 고정하고 뒤로 폄. 가벼운 무게로 수축 집중.' },
+      { id: 'core-situp', name: '인클라인 벤치 싯업', sets: 3, reps: '10-20', muscle: '복근', tip: '벤치 각도 30-45도. 손은 가슴 앞 X자 또는 머리 옆에 살짝. 목 뒤 깍지 끼고 잡아당기지 말 것 (목 부상). 등이 벤치 닿기 직전 다시 올라와 지속 긴장 유지. 20회 4세트 깔끔하면 덤벨 2.5-5kg 안고 수행.' },
+      { id: 'd1-2', name: '인클라인 덤벨 컬', sets: 4, reps: '8-20', muscle: '이두 장두', tip: '벤치 45-60도, 팔을 완전히 늘어뜨린 상태에서 컬. 이두 장두가 최대 신장되는 황금 자세, 반동 절대 금지.' },
+      { id: 'd1-3', name: '라잉 트라이셉스 익스텐션', sets: 4, reps: '8-20', muscle: '삼두', tip: '플랫벤치 누워서 덤벨을 이마 뒤쪽으로 내림, 팔꿈치 위치 고정. 내릴 때 3초, 올릴 때 1초.' },
+      { id: 'd1-4', name: '해머 컬', sets: 3, reps: '8-20', muscle: '상완근/전완', tip: '손바닥이 서로 마주보게 잡고 컬. 상완근과 전완근 개입, 팔뚝 두께 키우는 핵심.' },
+      { id: 'd1-5', name: '시티드 오버헤드 익스텐션', sets: 3, reps: '8-20', muscle: '삼두 장두', tip: '인클라인 벤치에 앉아 양손으로 덤벨 하나 잡고 머리 뒤로 내림. 삼두 장두 최대 신장, 팔꿈치 벌어지지 않게 귀 옆 고정.' },
     ],
   },
   tue: {
@@ -30,13 +28,10 @@ const WORKOUT_PLAN = {
     icon: '🦵',
     cardio: null,
     exercises: [
-      { id: 'd2-1', name: '고블릿 스쿼트', sets: 4, reps: '10', muscle: '대퇴사두', tip: '덤벨 하나를 가슴 앞에 수직으로 잡고 스쿼트. 상체 각도 유지 쉬움, 대퇴가 바닥과 평행 이하까지 내려가기.' },
-      { id: 'd2-2', name: '불가리안 스플릿 스쿼트', sets: 4, reps: '10/side', muscle: '대퇴사두', tip: '뒷발을 벤치에 올리고 앞다리로만 스쿼트, 덤벨 양손. 허벅지 굵은 체형일수록 대퇴사두 직타, 무릎이 발끝 넘어가도 괜찮음.' },
-      { id: 'd2-3', name: '덤벨 루마니안 데드리프트', sets: 4, reps: '10-12', muscle: '햄스트링', tip: '덤벨을 허벅지 앞에 잡고 무릎 살짝 굽힌 채 엉덩이 뒤로 빼며 하강. 햄스트링 당김 느낄 때까지, 허리 아치 유지.' },
-      { id: 'd2-4', name: '워킹 런지', sets: 3, reps: '12/side', muscle: '대퇴/둔근', tip: '덤벨 양손, 앞으로 걸으며 런지. 무릎이 바닥 닿기 직전까지, 상체 직립.' },
-      { id: 'd2-5', name: '덤벨 카프 레이즈', sets: 4, reps: '15-20', muscle: '종아리', tip: '덤벨 양손, 계단이나 플레이트 위에서 뒤꿈치 최대한 내렸다가 끝까지 올림. 정점에서 1초 정지.' },
-      { id: 'd2-6', name: '디클라인 웨이티드 크런치', sets: 3, reps: '15', muscle: '상복부', tip: '벤치 각도 낮춰 발 걸고 덤벨 가슴에 안고 크런치. 상복부 집중.' },
-      { id: 'd2-7', name: '러시안 트위스트', sets: 3, reps: '20', muscle: '복사근', tip: '벤치 끝 앉아 발 들고 덤벨 좌우로 회전. 복사근, 반동 말고 컨트롤.' },
+      { id: 'core-situp', name: '인클라인 벤치 싯업', sets: 3, reps: '10-20', muscle: '복근', tip: '벤치 각도 30-45도. 손은 가슴 앞 X자 또는 머리 옆에 살짝. 목 뒤 깍지 끼고 잡아당기지 말 것 (목 부상). 등이 벤치 닿기 직전 다시 올라와 지속 긴장 유지. 20회 4세트 깔끔하면 덤벨 2.5-5kg 안고 수행.' },
+      { id: 'd2-2', name: '불가리안 스플릿 스쿼트', sets: 4, reps: '8-20/측', muscle: '대퇴/둔근', tip: '뒷발을 벤치에 올리고 앞다리로만 스쿼트, 덤벨 양손. 허벅지 굵은 체형일수록 대퇴사두 직타, 무릎이 발끝 넘어가도 괜찮음.' },
+      { id: 'd2-3', name: '덤벨 루마니안 데드리프트', sets: 4, reps: '8-20', muscle: '햄스트링', tip: '덤벨을 허벅지 앞에 잡고 무릎 살짝 굽힌 채 엉덩이 뒤로 빼며 하강. 햄스트링 당김 느낄 때까지, 허리 아치 유지.' },
+      { id: 'd2-6', name: '디클라인 웨이티드 크런치', sets: 3, reps: '10-20', muscle: '상복부', tip: '벤치 각도 낮춰 발 걸고 덤벨 가슴에 안고 크런치. 상복부 집중.' },
     ],
   },
   wed: {
@@ -48,13 +43,11 @@ const WORKOUT_PLAN = {
     icon: '🎯',
     cardio: null,
     exercises: [
-      { id: 'd3-1', name: '시티드 덤벨 숄더프레스', sets: 4, reps: '8-10', muscle: '전면/측면 삼각', tip: '인클라인 벤치 등받이 85-90도, 덤벨을 귀 옆에서 수직으로 밀어올림. 전면+측면 삼각근 메인, 팔꿈치 완전히 잠그지 않기.' },
-      { id: 'd3-2', name: '원암 덤벨 로우', sets: 4, reps: '10/side', muscle: '광배', tip: '한 손/한 무릎 벤치 위, 반대손으로 덤벨을 골반 방향으로 당김. 팔꿈치 몸통에 붙여 당기고 등으로 조이기.' },
-      { id: 'd3-3', name: '사이드 래터럴 레이즈', sets: 4, reps: '12-15', muscle: '측면 삼각', tip: '팔꿈치 살짝 굽히고 양옆으로 어깨 높이까지. 새끼손가락이 살짝 위로 향하게, 무게는 가볍게.' },
-      { id: 'd3-4', name: '인클라인 체스트 서포티드 로우', sets: 3, reps: '10-12', muscle: '광배/능형근', tip: '인클라인 벤치에 엎드려 덤벨 양손으로 당김. 반동 차단되어 광배/능형근에 순수 자극.' },
-      { id: 'd3-5', name: '인클라인 리어 델트 플라이', sets: 4, reps: '12-15', muscle: '후면 삼각', tip: '인클라인에 엎드려 덤벨을 양옆으로 벌림. 후면삼각근 직타, 엄지 아래로 향하게.' },
-      { id: 'd3-6', name: '덤벨 슈러그', sets: 3, reps: '12-15', muscle: '승모', tip: '덤벨 양손으로 들고 어깨만 귀 쪽으로 들어올림. 회전 금지, 상승+정점 1초.' },
-      { id: 'd3-7', name: '사이드 레이즈 드롭셋', sets: 1, reps: 'to failure', muscle: '측면 삼각', tip: '무거운 무게로 실패까지 → 바로 가벼운 무게로 실패까지 → 한 번 더. 어깨 마무리 펌핑.' },
+      { id: 'core-situp', name: '인클라인 벤치 싯업', sets: 3, reps: '10-20', muscle: '복근', tip: '벤치 각도 30-45도. 손은 가슴 앞 X자 또는 머리 옆에 살짝. 목 뒤 깍지 끼고 잡아당기지 말 것 (목 부상). 등이 벤치 닿기 직전 다시 올라와 지속 긴장 유지. 20회 4세트 깔끔하면 덤벨 2.5-5kg 안고 수행.' },
+      { id: 'd3-1', name: '시티드 덤벨 숄더프레스', sets: 4, reps: '8-20', muscle: '전면/측면 삼각', tip: '인클라인 벤치 등받이 85-90도, 덤벨을 귀 옆에서 수직으로 밀어올림. 전면+측면 삼각근 메인, 팔꿈치 완전히 잠그지 않기.' },
+      { id: 'd3-3', name: '사이드 래터럴 레이즈', sets: 4, reps: '10-20', muscle: '측면 삼각', tip: '팔꿈치 살짝 굽히고 양옆으로 어깨 높이까지. 새끼손가락이 살짝 위로 향하게, 무게는 가볍게. 단관절이라 0.5kg 단위 증량 권장.' },
+      { id: 'd3-2', name: '원암 덤벨 로우', sets: 4, reps: '8-20/측', muscle: '광배', tip: '한 손/한 무릎 벤치 위, 반대손으로 덤벨을 골반 방향으로 당김. 팔꿈치 몸통에 붙여 당기고 등으로 조이기.' },
+      { id: 'd3-5', name: '인클라인 리어 델트 플라이', sets: 3, reps: '10-20', muscle: '후면 삼각', tip: '인클라인에 엎드려 덤벨을 양옆으로 벌림. 후면삼각근 직타, 엄지 아래로 향하게.' },
     ],
   },
   thu: {
@@ -66,13 +59,11 @@ const WORKOUT_PLAN = {
     icon: '💪',
     cardio: '저녁 달리기 20-30분',
     exercises: [
-      { id: 'd4-1', name: '스컬크러셔', sets: 4, reps: '10-12', muscle: '삼두', tip: '플랫 누워 덤벨 양손, 팔꿈치 고정하고 이마 양옆으로 내림. Day 1 라잉 익스텐션과 각도 변주.' },
-      { id: 'd4-2', name: '덤벨 컬 (스탠딩)', sets: 4, reps: '10-12', muscle: '이두', tip: '서서 양손 동시 컬, 팔꿈치 고정. 기본 빌더, 반동 없이 풀 가동범위.' },
-      { id: 'd4-3', name: '클로즈그립 덤벨 프레스', sets: 3, reps: '10', muscle: '삼두', tip: 'Day 1과 동일, 볼륨 추가. 삼두 복합 자극.' },
-      { id: 'd4-4', name: '스파이더 컬', sets: 3, reps: '12', muscle: '이두 단두', tip: '인클라인 벤치에 엎드려 팔을 아래로 늘어뜨리고 컬. 이두 단두 집중, 정점 수축 극대화.' },
-      { id: 'd4-5', name: '덤벨 킥백', sets: 3, reps: '12-15', muscle: '삼두 외측', tip: 'Day 1과 동일, 삼두 외측두 마무리.' },
-      { id: 'd4-6', name: '해머 컬', sets: 3, reps: '12', muscle: '상완근', tip: 'Day 1과 동일, 상완근 볼륨 확보.' },
-      { id: 'd4-7', name: '오버헤드 삼두 익스텐션', sets: 3, reps: '15', muscle: '삼두 장두', tip: '시티드 버전, 고반복 펌핑으로 마무리.' },
+      { id: 'core-situp', name: '인클라인 벤치 싯업', sets: 3, reps: '10-20', muscle: '복근', tip: '벤치 각도 30-45도. 손은 가슴 앞 X자 또는 머리 옆에 살짝. 목 뒤 깍지 끼고 잡아당기지 말 것 (목 부상). 등이 벤치 닿기 직전 다시 올라와 지속 긴장 유지. 20회 4세트 깔끔하면 덤벨 2.5-5kg 안고 수행.' },
+      { id: 'd4-2', name: '덤벨 컬 (스탠딩)', sets: 4, reps: '8-20', muscle: '이두', tip: '서서 양손 동시 컬, 팔꿈치 고정. 기본 빌더, 반동 없이 풀 가동범위.' },
+      { id: 'd4-3', name: '클로즈그립 덤벨 프레스', sets: 4, reps: '8-20', muscle: '삼두', tip: '플랫에 누워 덤벨 두 개를 가슴 위에서 나란히 붙이고 팔꿈치 몸통에 붙인 채 수직 프레스. 삼두 복합 운동, 고중량 가능.' },
+      { id: 'd4-4', name: '스파이더 컬', sets: 3, reps: '10-20', muscle: '이두 단두', tip: '인클라인 벤치에 엎드려 팔을 아래로 늘어뜨리고 컬. 이두 단두 집중, 정점 수축 극대화.' },
+      { id: 'd4-5', name: '덤벨 킥백', sets: 3, reps: '12-20', muscle: '삼두 외측', tip: '한 손으로 벤치 짚고 상체 수평, 팔꿈치를 몸통 높이로 고정하고 뒤로 폄. 가벼운 무게로 수축 집중. 단관절이라 0.5kg 단위 증량 권장.' },
     ],
   },
   fri: {
@@ -84,13 +75,10 @@ const WORKOUT_PLAN = {
     icon: '🔥',
     cardio: null,
     exercises: [
-      { id: 'd5-1', name: '인클라인 덤벨 프레스', sets: 4, reps: '8-10', muscle: '상부 가슴', tip: '벤치 30도(45도 넘으면 어깨 개입 커짐), 덤벨을 가슴 상부 방향으로 밀어올림. 상부 가슴 메인.' },
-      { id: 'd5-2', name: '플랫 덤벨 프레스', sets: 4, reps: '10', muscle: '중부 가슴', tip: '플랫에 누워 덤벨 수직으로 밀기. 중부 가슴, 내릴 때 가슴 바깥쪽까지 스트레치.' },
-      { id: 'd5-3', name: '인클라인 덤벨 플라이', sets: 3, reps: '12', muscle: '상부 가슴', tip: '인클라인 누워 팔꿈치 살짝 굽힌 채 양옆으로 벌렸다 모음. 가슴 신장 자극, 무리한 하강 금지.' },
-      { id: 'd5-4', name: '덤벨 풀오버', sets: 3, reps: '12', muscle: '가슴/광배', tip: '플랫에 어깨만 걸치고 덤벨 하나를 머리 뒤로 호를 그리며 내림. 가슴+광배+전거근 동시 자극.' },
-      { id: 'd5-5', name: '프론트 레이즈', sets: 3, reps: '12', muscle: '전면 삼각', tip: '덤벨을 어깨 높이까지 앞으로 들어올림. 전면삼각근 보조, 가볍게.' },
-      { id: 'd5-6', name: '벤치 레그레이즈', sets: 3, reps: '15', muscle: '하복부', tip: '플랫에 누워 손으로 벤치 끝 잡고 다리를 수직까지 들어올림. 하복부 집중, 허리 뜨지 않게.' },
-      { id: 'd5-7', name: '덤벨 사이드 벤드', sets: 3, reps: '15/side', muscle: '복사근', tip: '한 손에 덤벨 잡고 옆구리 기울였다 복귀. 복사근, 한쪽씩.' },
+      { id: 'core-situp', name: '인클라인 벤치 싯업', sets: 3, reps: '10-20', muscle: '복근', tip: '벤치 각도 30-45도. 손은 가슴 앞 X자 또는 머리 옆에 살짝. 목 뒤 깍지 끼고 잡아당기지 말 것 (목 부상). 등이 벤치 닿기 직전 다시 올라와 지속 긴장 유지. 20회 4세트 깔끔하면 덤벨 2.5-5kg 안고 수행.' },
+      { id: 'd5-1', name: '인클라인 덤벨 프레스', sets: 4, reps: '8-20', muscle: '상부 가슴', tip: '벤치 30도(45도 넘으면 어깨 개입 커짐), 덤벨을 가슴 상부 방향으로 밀어올림. 상부 가슴 메인.' },
+      { id: 'd5-2', name: '플랫 덤벨 프레스', sets: 4, reps: '8-20', muscle: '중부 가슴', tip: '플랫에 누워 덤벨 수직으로 밀기. 중부 가슴, 내릴 때 가슴 바깥쪽까지 스트레치.' },
+      { id: 'd5-6', name: '벤치 레그레이즈', sets: 3, reps: '10-20', muscle: '하복부', tip: '플랫에 누워 손으로 벤치 끝 잡고 다리를 수직까지 들어올림. 하복부 집중, 허리 뜨지 않게.' },
     ],
   },
   sat: { day: 'CARDIO', title: '선택적 LISS', subtitle: 'LIGHT CARDIO OR REST', priority: 0, color: '#84cc16', icon: '🏃', cardio: '가벼운 LISS 달리기 30-40분 (선택)', exercises: [], rest: true, isCardioDay: true },
@@ -591,16 +579,23 @@ export default function App() {
               const doneCount = Object.values(setData).filter(s => s.done).length;
               const isExpanded = expandedExercise === ex.id;
               const lastWeight = lastWeights[ex.id];
+              // 모든 세트 완료 + 모든 세트 20회 이상 → 증량 시그널
+              const allSetsDone = doneCount === ex.sets;
+              const allReps20Plus = allSetsDone && Array.from({ length: ex.sets }).every((_, i) => {
+                const reps = parseInt(setData[i]?.reps || 0);
+                return reps >= 20;
+              });
               return (
-                <div key={ex.id} className={`border-2 transition-all ${doneCount === ex.sets ? 'border-lime-500/30 bg-lime-500/5' : 'border-stone-800 bg-stone-900/50'}`}>
+                <div key={ex.id} className={`border-2 transition-all ${allReps20Plus ? 'border-orange-500 bg-orange-500/5' : doneCount === ex.sets ? 'border-lime-500/30 bg-lime-500/5' : 'border-stone-800 bg-stone-900/50'}`}>
                   <button onClick={() => setExpandedExercise(isExpanded ? null : ex.id)} className="w-full p-3 flex items-center gap-2.5 text-left">
-                    <div className={`w-7 h-7 flex items-center justify-center text-[10px] font-bold tabular-nums flex-shrink-0 ${doneCount === ex.sets ? 'bg-lime-500 text-stone-950' : 'bg-stone-800 text-stone-400'}`}>
+                    <div className={`w-7 h-7 flex items-center justify-center text-[10px] font-bold tabular-nums flex-shrink-0 ${allReps20Plus ? 'bg-orange-500 text-stone-950' : doneCount === ex.sets ? 'bg-lime-500 text-stone-950' : 'bg-stone-800 text-stone-400'}`}>
                       {String(idx + 1).padStart(2, '0')}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-baseline gap-1.5 flex-wrap">
                         <div className="font-bold text-sm leading-tight break-keep">{ex.name}</div>
                         <div className="text-[10px] text-stone-500">[{ex.muscle}]</div>
+                        {allReps20Plus && <div className="text-[9px] text-orange-500 font-bold tracking-widest animate-pulse">↑ +KG</div>}
                       </div>
                       <div className="text-[10px] text-stone-500 mt-0.5 tabular-nums">
                         {ex.sets} × {ex.reps}
@@ -677,11 +672,12 @@ export default function App() {
             <div className="mt-6 border-2 border-stone-800 p-5">
               <div className="text-xs tracking-widest text-orange-500 mb-3">KEY PRINCIPLES</div>
               <ul className="text-xs text-stone-400 space-y-2 leading-relaxed">
-                <li>▸ 팔 주 2회 (월/목) · 사이 48시간 이상 확보</li>
-                <li>▸ 본세트 전 웜업 50-60% 무게로 12-15회 1세트</li>
+                <li>▸ 매 운동 시작은 인클라인 싯업 3세트 (코어 활성화)</li>
+                <li>▸ <span className="text-orange-400 font-bold">20회 룰</span> · 모든 세트 20회 가능 → 다음날 +1kg (단관절은 +0.5kg)</li>
+                <li>▸ 새 무게로 8회밖에 못해도 OK · 다시 20까지 키우기</li>
                 <li>▸ 세트당 1-2 RIR · 실패 직전 1-2회 남기고 마무리</li>
                 <li>▸ 복합운동 휴식 90-120초 · 단관절 60-75초</li>
-                <li>▸ GLP-1 감량기 → 근량 보존 위해 무게보단 볼륨 유지</li>
+                <li>▸ 팔 주 2회 (월/목) · 사이 48시간 이상 확보</li>
                 <li>▸ 클라이밍 일정과 충돌 시 웨이트 먼저, 최소 4시간 간격</li>
               </ul>
             </div>
